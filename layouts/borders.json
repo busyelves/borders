@@ -1,0 +1,259 @@
+{
+  "id": "root",
+  "type": "row",
+  "cloned_from": {
+    "name": "main",
+    "version": "0.1.12"
+  },
+  "children": [
+    {
+      "id": "sidebar",
+      "type": "column",
+      "children": [
+        {
+          "id": "sidebar-switch",
+          "type": "block",
+          "content": {
+            "mod": "borders-switch"
+          },
+          "size": {
+            "px": 42
+          },
+          "window_drag": true
+        },
+        {
+          "id": "sidebar-body",
+          "type": "stack",
+          "active": "sidebar-lists",
+          "children": [
+            {
+              "id": "sidebar-lists",
+              "type": "column",
+              "resizable": true,
+              "gap": 8,
+              "padding": [
+                8,
+                4
+              ],
+              "children": [
+                {
+                  "id": "spaces",
+                  "type": "block",
+                  "content": {
+                    "mod": "spaces"
+                  },
+                  "size": {
+                    "weight": 1
+                  },
+                  "min": 31,
+                  "border": {
+                    "width": 1.5,
+                    "color": "card_border"
+                  },
+                  "radius": 8,
+                  "background": "sidebar_card"
+                },
+                {
+                  "id": "agents",
+                  "type": "block",
+                  "content": {
+                    "mod": "borders-agents"
+                  },
+                  "size": {
+                    "weight": 1
+                  },
+                  "min": 35,
+                  "border": {
+                    "width": 1.5,
+                    "color": "card_border"
+                  },
+                  "radius": 8,
+                  "background": "sidebar_card"
+                }
+              ]
+            },
+            {
+              "id": "sidebar-files",
+              "type": "column",
+              "padding": [
+                8,
+                4
+              ],
+              "children": [
+                {
+                  "id": "sidebar-files-card",
+                  "type": "block",
+                  "content": {
+                    "mod": "files"
+                  },
+                  "border": {
+                    "width": 1.5,
+                    "color": "card_border"
+                  },
+                  "radius": 8,
+                  "background": "sidebar_card"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sidebar-footer",
+          "hidden": true,
+          "type": "block",
+          "content": {
+            "mod": "workspace-chrome",
+            "props": {
+              "footer": true
+            }
+          },
+          "size": {
+            "px": 69
+          }
+        }
+      ],
+      "size": {
+        "px": 268
+      },
+      "min": 44,
+      "max": 480,
+      "resizable": false
+    },
+    {
+      "id": "work",
+      "type": "column",
+      "padding": [
+        6.5,
+        2.5
+      ],
+      "resizable": false,
+      "children": [
+        {
+          "id": "work-card",
+          "type": "column",
+          "background": "canvas",
+          "border": {
+            "width": 1.5,
+            "color": "workspace_border"
+          },
+          "radius": 10,
+          "resizable": false,
+          "children": [
+            {
+              "id": "borders-top",
+              "type": "block",
+              "content": {
+                "mod": "borders-top"
+              },
+              "size": {
+                "px": 42
+              },
+              "window_drag": true
+            },
+            {
+              "id": "work-body",
+              "type": "row",
+              "padding": 0,
+              "gap": 5,
+              "children": [
+                {
+                  "id": "main",
+                  "type": "block",
+                  "content": {
+                    "tab": "active",
+                    "pane": {
+                      "header": {
+                        "content": {
+                          "mod": "borders-pane"
+                        },
+                        "reveal": "always",
+                        "height": 32,
+                        "position": "top"
+                      },
+                      "background": "background",
+                      "border": {
+                        "width": 1.5,
+                        "color": "border"
+                      },
+                      "focus": {
+                        "width": 1.5,
+                        "color": "focus_border"
+                      },
+                      "radius": 10,
+                      "gap": 8,
+                      "lone": true
+                    }
+                  }
+                },
+                {
+                  "id": "panel",
+                  "type": "column",
+                  "size": {
+                    "px": 368
+                  },
+                  "min": 280,
+                  "max": 900,
+                  "hidden": true,
+                  "children": [
+                    {
+                      "id": "panel-body",
+                      "type": "stack",
+                      "active": "files",
+                      "children": [
+                        {
+                          "id": "files",
+                          "type": "block",
+                          "content": {
+                            "mod": "files"
+                          }
+                        },
+                        {
+                          "id": "changes",
+                          "type": "block",
+                          "content": {
+                            "mod": "changes"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "status",
+              "type": "block",
+              "content": {
+                "mod": "workspace-status"
+              },
+              "size": {
+                "px": 28
+              },
+              "hidden": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "background": "backdrop",
+  "theme": {
+    "light": "borders-light",
+    "dark": "borders-dark"
+  },
+  "terminal_opacity": 0,
+  "terminal_padding": [
+    14,
+    12
+  ],
+  "titlebar": "none",
+  "traffic_lights": [
+    -200,
+    -200
+  ],
+  "padding": [
+    0,
+    4
+  ],
+  "gap": 0
+}
