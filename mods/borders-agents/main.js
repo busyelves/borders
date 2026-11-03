@@ -8,6 +8,7 @@ import { v_flex, h_flex } from "gpui-base";
 import { agents, terminals, panes, focused, spaces, run, theme, shared, setShared, setAgentOrder, openOverlay, closeOverlay, props, window, layout } from "herdr";
 import { swipe } from "./swipe.js";
 import { folded, toggle, chevron } from "./fold.js";
+import { side } from "./side.js";
 
 function find(node, id) {
   if (node?.id === id) return node;
@@ -222,7 +223,7 @@ export default class Agents extends View {
   }
 
   render(cx) {
-    const t = theme();
+    const t = side(theme());
     if (props()?.sortMenu) return this.sortMenu(t);
     const collapsed = narrow();
     const sort = sortOf();

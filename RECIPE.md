@@ -23,12 +23,13 @@ Left to right, top to bottom:
      - *Workspace*: two cards 8px apart, each `sidebar_card` (light `#f9f8f5`, dark `#444342`),
        1.5px `card_border` outline (light `#d8d2c7`, dark `#595755`), radius 8, sharing the height
        evenly with a draggable divider between them:
-       - **Spaces**: Herdr's own Spaces block: header "Spaces" with a + button, then each
-         machine's spaces with branch and status.
+       - **Spaces**: Herdr's Spaces block, restyled: a 31px header (12px layers icon, "Spaces"
+         11px bold `foreground`, a fold chevron; a + on the right), then each machine's spaces
+         with branch and status.
        - **Agents**: a 32px header (12px agent icon, "Agents" 11px bold `foreground`, a fold
          chevron 11px `dim`; a sort button on the right), then Herdr's agent rows, 11.5px.
      - *Files*: one card, the same style, filling the body: Herdr's Files tree for the focused
-       pane's folder.
+       pane's folder, without its own frame.
 2. **Work card**, the rest of the width, 6.5px from the top and bottom and 2.5px from the sides:
    `canvas` fill, 1.5px `workspace_border` outline (invisible in light, `#595755` in dark),
    radius 10.
@@ -50,7 +51,11 @@ Left to right, top to bottom:
      last part (`~` for home) in `dim` 10.5px, then the status.
    - A **side panel** (Files or Changes, 368px, min 280, max 900) can open right of the panes,
      5px away; hidden at first. A **status bar** (28px) is in the layout but hidden.
-3. **Themes**: `borders-light` and `borders-dark`, picked by the system appearance. Muted
+3. **Themes**: `borders-light` and `borders-dark`, picked by the system appearance; and
+   `borders-parchment`, picked in Settings › Theme: backdrop and bars `#424242`, cards `#4b4b4b`
+   with a `#3a3a3a` edge, light text on them (`#e6e6e6`, `#c9c9c9`, `#a3a3a3`), the selected row
+   gold `#85764F`; panes cream `#e9e1d9` with `#2b2622` text, focus `#BC5215`, accent `#b89251`.
+   The other two: Muted
    `#49453e` / `#c9c4b9`, dim `#706b60` / `#9a958b`, selected `#e3d5bf` / `#615a4e`. Role
    colours (Flexoki 600 in light, 400 in dark): lead `#1C6C66` / `#3AA99F`, orch `#205EA6` /
    `#4385BE`, advisor `#5E409D` / `#8B7EC8`, successor `#BC5215` / `#DA702C`.
@@ -91,10 +96,10 @@ Left to right, top to bottom:
   `{ light: "borders-light", dark: "borders-dark" }`:
   - `sidebar` column (268px, not resizable): `sidebar-switch` block (42px, `window_drag`,
     mod `borders-switch`) → `sidebar-body` stack (active `sidebar-lists`):
-    - `sidebar-lists` column (resizable, gap 8, padding [8, 4]): block `spaces` (shipped mod
-      `spaces`, weight 1, min 31) and block `agents` (mod `borders-agents`, weight 1, min 35),
+    - `sidebar-lists` column (resizable, gap 8, padding [8, 4]): block `spaces` (mod
+      `borders-spaces`, weight 1, min 31) and block `agents` (mod `borders-agents`, weight 1, min 35),
       each a card (`sidebar_card`, 1.5px `card_border`, radius 8).
-    - `sidebar-files` column (padding [8, 4]): one card block, shipped mod `files`.
+    - `sidebar-files` column (padding [8, 4]): one card block, mod `borders-files`.
     - then `sidebar-footer` (shipped `workspace-chrome` footer, hidden).
   - `work` column (padding [6.5, 2.5]) → `work-card` column (`canvas`, 1.5px `workspace_border`,
     radius 10): `borders-top` block (42px, `window_drag`, mod `borders-top`) → `work-body` row
@@ -103,7 +108,9 @@ Left to right, top to bottom:
     `focus_border`, radius 10, gap 8, lone: true } }` and `panel` column (368px, hidden) →
     `panel-body` stack of shipped `files` and `changes` → `status` block (shipped
     `workspace-status`, 28px, hidden).
-- **Mods** (all `place: "none"`; none runs programs, reaches the network or reads files):
+- **Mods** (all `place: "none"`; none reaches the network). Each sidebar and bar mod passes
+  `theme()` through `side.js`, which swaps in a theme's `chrome_*` colours (Parchment's light text
+  on grey) and leaves themes without them as they are:
   - `borders-switch`: the switch; `swipe.js`. Reads `layout()`; runs `layout.select` on stack
     `sidebar-body`, `layout.resize` on `borders-top`.
   - `borders-top`: the title bar. Reads `spaces()`, `panes()`, `layout()`, `window()`,
@@ -118,25 +125,34 @@ Left to right, top to bottom:
   - `borders-agents`: shipped `agents` (0.1.12) with its own background and top line removed
     (the card draws them), a 32px header that folds, the swipe, and its sort popup pointed at
     itself. `fold.js` keeps the unfolded size in shared `borders.folds`.
-- **Shipped mods used**: `spaces`, `files`, `changes`, `menu`, `new-menu`, `workspace-chrome`,
+  - `borders-spaces`: shipped `spaces` (0.1.12) without its `chrome` fill, with a folding header,
+    the swipe and `side.js`. Runs what the shipped block runs: `git status` / `rev-parse` in each
+    space's folder, `hc machine ls` and `hc` lookups for other machines.
+  - `borders-files`: shipped `files` (0.1.12) without its own frame (the card draws it), with
+    the swipe and `side.js`. Runs `sh` to list a folder and `git status` for change marks; reads
+    the file it shows.
+- **Shipped mods used**: `files` and `changes` (the side panel), `menu`, `new-menu`, `workspace-chrome`,
   `workspace-status`; icons `mods/workspace-chrome/chevron-*.svg`, `mods/files/chevron-down.svg`,
   `icons/agent.svg`.
-- **Themes**: `themes/borders-light.json`, `themes/borders-dark.json`. Besides Herdr's colours
+- **Themes**: `themes/borders-light.json`, `themes/borders-dark.json`,
+  `themes/borders-parchment.json` (with `chrome_foreground`, `chrome_muted`, `chrome_dim`,
+  `chrome_hover`, `chrome_raised`, `chrome_selected`, `chrome_border`, `chrome_input` for the bars).
+  Besides Herdr's colours
   they define `backdrop` (behind the cards), `sidebar_card`, `card_border`, `workspace_border`,
   `focus_border` and `role_lead`, `role_orch`, `role_advisor`, `role_successor`. `chrome` is set
-  to the card colour, because Herdr's Spaces, Agents and Files blocks paint `chrome`.
-- No programs, no art beyond the icons, no keys.
+  to the card colour in light and dark.
+- No art beyond the icons, no keys.
 
 ## Watch out
 
-- Herdr's shipped blocks paint `chrome` as their background; with `chrome` left as the window
-  colour they draw a darker square inside each card. Keep `chrome` = `sidebar_card` and put the
-  window colour in `backdrop`.
+- Herdr's shipped blocks paint `chrome` as their background and read the theme's own text
+  colours; that is why Spaces, Agents and Files are copies here. A layout node's `theme` only
+  recolours what the layout draws (fills, borders), not the text inside a mod: dark bars with light
+  text need `side.js` in every mod on them.
 - The shipped Agents block also draws a 1px line along its top; inside a card it doubles the
   card's edge, so `borders-agents` drops it.
-- Spaces is Herdr's own block, so it does not fold and does not take the swipe; Files neither.
-  Swipe over the switch or the Agents card. Folding Spaces or swiping over it would mean copying
-  Herdr's Spaces block, which runs `git` and `hc`.
+- Popups the bar mods open (menus, the sort menu) sit on `popover` and keep the theme's own
+  colours: `side.js` returns the theme untouched when `props().overlay` is set.
 - A fold is read from the block's height (no taller than its header plus 3px of border), not a
   flag, so a dragged divider unfolds it; the block's `min` must stay at or below 35.
 - The title bar hides to 1px, never `layout.hide` or 0: hidden mods get no live data and no

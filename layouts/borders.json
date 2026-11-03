@@ -40,7 +40,7 @@
                   "id": "spaces",
                   "type": "block",
                   "content": {
-                    "mod": "spaces"
+                    "mod": "borders-spaces"
                   },
                   "size": {
                     "weight": 1
@@ -84,7 +84,7 @@
                   "id": "sidebar-files-card",
                   "type": "block",
                   "content": {
-                    "mod": "files"
+                    "mod": "borders-files"
                   },
                   "border": {
                     "width": 1.5,

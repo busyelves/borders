@@ -6,6 +6,7 @@
 import { View, div, svg, image } from "gpui-kit";
 import { h_flex } from "gpui-base";
 import { run, theme, spaces, panes, openOverlay, layout, window, settings, shared } from "herdr";
+import { side } from "./side.js";
 
 function find(node, id) {
   if (!node) return null;
@@ -49,7 +50,7 @@ export default class BordersTop extends View {
   }
 
   render() {
-    const t = theme(), root = layout();
+    const t = side(theme()), root = layout();
     // Hidden: the bar stays one drawn pixel (layout.hide or 0 would stop its live data).
     if ((find(root, "borders-top")?.size?.px ?? 42) <= 1) return div().size_full();
     const space = spaces().find(s => s.active), tabs = space?.tabs ?? [];

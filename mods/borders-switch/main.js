@@ -5,6 +5,7 @@
 import { View, div, svg } from "gpui-kit";
 import { h_flex } from "gpui-base";
 import { run, theme, layout, nextCommand } from "herdr";
+import { side } from "./side.js";
 import { swipe } from "./swipe.js";
 
 const STACK = "sidebar-body";
@@ -32,7 +33,7 @@ export default class BordersSwitch extends View {
   }
 
   render() {
-    const t = theme(), active = find(layout(), STACK)?.active ?? VIEWS[0][0];
+    const t = side(theme()), active = find(layout(), STACK)?.active ?? VIEWS[0][0];
     const barHidden = (find(layout(), "borders-top")?.size?.px ?? 42) <= 1;
     return h_flex().on_scroll_wheel(swipe).size_full().px(4).pt(10).gap(4).items_start().child(
       div().flex_1().h(30).p(3).rounded(8).border(1.5).border_color(t.card_border ?? t.border).bg(t.hover).child(div().relative().size_full()
